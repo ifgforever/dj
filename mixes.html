@@ -1,1 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>DJ Mario — Mixes</title>
+  <link rel="stylesheet" href="assets/style.css"/>
+</head>
+<body>
+  <div class="ambient"></div>
+  <canvas id="fx"></canvas>
+  <div class="strobe"></div>
+
+  <header class="nav">
+    <div class="nav-inner">
+      <a class="brand" href="index.html">
+        <span class="badge" aria-hidden="true"></span>
+        <div>
+          <strong>DJ MARIO</strong><br/>
+          <span style="color:var(--muted); font-size:12px; letter-spacing:1px;">HOUSE • CLUB • ENERGY</span>
+        </div>
+      </a>
+      <nav class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="mixes.html">Mixes</a>
+        <a href="events.html">Events</a>
+        <a href="booking.html">Booking</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="panel" style="padding:22px;">
+      <div class="lasers"></div>
+      <div class="kicker">MIXES</div>
+      <h1 class="title" style="font-size: clamp(34px, 5vw, 56px);">Listen to DJ Mario</h1>
+      <p class="section-sub">Drop in your SoundCloud / YouTube embeds here. For the demo, placeholders are shown.</p>
+
+      <div class="grid" style="grid-template-columns: 1.2fr .8fr;">
+        <div class="card">
+          <h4>Featured Mix</h4>
+          <p style="margin-bottom:10px;">Replace this box with a SoundCloud embed.</p>
+          <div style="border-radius:14px; overflow:hidden; border:1px solid rgba(255,255,255,.10); background:rgba(0,0,0,.35); padding:14px; color:var(--muted);">
+            Paste SoundCloud iframe here.
+          </div>
+        </div>
+        <div class="card">
+          <h4>Quick Links</h4>
+          <p>• Latest set<br/>• Club classics<br/>• Deep house night drive<br/>• Festival energy</p>
+          <div class="cta-row" style="margin-top:12px;">
+            <button class="btn small" id="clubToggle" type="button" aria-pressed="true">Club Mode: ON</button>
+            <button class="btn small" id="strobeToggle" type="button" aria-pressed="false">Strobe: OFF</button>
+          </div>
+        </div>
+      </div>
+
+      <h2 class="section-title">Mix library</h2>
+      <table class="table">
+        <tr>
+          <th style="color:var(--muted); text-align:left;">Mix</th>
+          <th style="color:var(--muted); text-align:left;">Vibe</th>
+          <th style="color:var(--muted); text-align:left;">Link</th>
+        </tr>
+        <tr class="row">
+          <td>Midnight House Session</td>
+          <td><span class="tag">Groovy</span> <span class="tag">Club</span></td>
+          <td><a class="btn small" href="#" onclick="return false;">Play</a></td>
+        </tr>
+        <tr class="row">
+          <td>Deep & Clean</td>
+          <td><span class="tag">Deep</span> <span class="tag">Late Night</span></td>
+          <td><a class="btn small" href="#" onclick="return false;">Play</a></td>
+        </tr>
+        <tr class="row">
+          <td>Festival Lift-Off</td>
+          <td><span class="tag">Big</span> <span class="tag">Energy</span></td>
+          <td><a class="btn small" href="#" onclick="return false;">Play</a></td>
+        </tr>
+      </table>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <div>DJ Mario (Demo)</div>
+      <div>For bookings: booking.html</div>
+    </div>
+  </footer>
+
+  <script src="assets/app.js"></script>
+</body>
+</html>
 
