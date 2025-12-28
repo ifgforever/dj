@@ -1,134 +1,265 @@
-// ----- Page active link -----
-(function setActiveNav(){
-  const path = location.pathname.split("/").pop() || "index.html";
-  document.querySelectorAll(".nav-links a").forEach(a=>{
-    const href = a.getAttribute("href");
-    if(href === path) a.classList.add("active");
+// ═══════════════════════════════════════════════════════════
+//  DJ MARIO — REFINED EFFECTS
+// ═══════════════════════════════════════════════════════════
+
+// Active navigation link
+(function initNav() {
+  const path = location.pathname.split('/').pop() || 'index.html';
+  document.querySelectorAll('.nav-links a').forEach(link => {
+    if (link.getAttribute('href') === path) {
+      link.classList.add('active');
+    }
   });
 })();
 
-// ----- FX Canvas (particles + laser sweeps) -----
-const canvas = document.getElementById("fx");
-const ctx = canvas.getContext("2d", { alpha: true });
+// ═══════════════════════════════════════════════════════════
+//  PARTICLE SYSTEM — Subtle, elegant floating particles
+// ═══════════════════════════════════════════════════════════
 
-let W=0, H=0, DPR=1;
-function resize(){
-  DPR = Math.max(1, Math.min(2, window.devicePixelRatio || 1));
-  W = canvas.width  = Math.floor(window.innerWidth * DPR);
-  H = canvas.height = Math.floor(window.innerHeight * DPR);
-  canvas.style.width  = "100%";
-  canvas.style.height = "100%";
-}
-window.addEventListener("resize", resize);
-resize();
+const canvas = document.getElementById('fx-canvas');
+if (canvas) {
+  const ctx = canvas.getContext('2d');
+  let W = 0, H = 0, dpr = 1;
+  let animationId = null;
+  let effectsEnabled = true;
 
-const rand = (a,b)=> a + Math.random()*(b-a);
+  function resize() {
+    dpr = Math.min(window.devicePixelRatio || 1, 2);
+    W = canvas.width = window.innerWidth * dpr;
+    H = canvas.height = window.innerHeight * dpr;
+    canvas.style.width = '100%';
+    canvas.style.height = '100%';
+  }
+  
+  window.addEventListener('resize', resize);
+  resize();
 
-const particles = Array.from({length: 140}, ()=>({
-  x: rand(0,W), y: rand(0,H),
-  r: rand(0.8, 2.2)*DPR,
-  vx: rand(-0.20, 0.20)*DPR,
-  vy: rand(-0.25, 0.25)*DPR,
-  phase: rand(0, Math.PI*2)
-}));
+  // Particle configuration
+  const PARTICLE_COUNT = 80;
+  const particles = [];
+  
+  // Colors — warm amber and cool teal
+  const colors = [
+    { r: 232, g: 169, b: 70 },   // Accent amber
+    { r: 78, g: 205, b: 196 },   // Electric teal
+    { r: 250, g: 250, b: 250 },  // White
+  ];
 
-let t = 0;
-let clubMode = true;
-
-function draw(){
-  t += 0.016;
-
-  ctx.clearRect(0,0,W,H);
-
-  // Soft vignette
-  ctx.save();
-  const grad = ctx.createRadialGradient(W*0.35, H*0.20, 0, W*0.5, H*0.5, Math.max(W,H)*0.65);
-  grad.addColorStop(0, "rgba(0,255,255,0.07)");
-  grad.addColorStop(0.35, "rgba(255,0,255,0.05)");
-  grad.addColorStop(1, "rgba(0,0,0,0)");
-  ctx.fillStyle = grad;
-  ctx.fillRect(0,0,W,H);
-  ctx.restore();
-
-  // Laser sweeps
-  const sweeps = clubMode ? 5 : 3;
-  for(let i=0;i<sweeps;i++){
-    const y = (H*(0.15 + i*0.16)) + Math.sin(t*0.9 + i)*H*0.03;
-    const xOff = Math.sin(t*0.7 + i)*W*0.12;
-
-    ctx.save();
-    ctx.globalAlpha = clubMode ? 0.16 : 0.10;
-    ctx.lineWidth = (clubMode ? 2.2 : 1.6) * DPR;
-
-    // Color oscillation
-    const hue = (t*60 + i*90) % 360;
-    ctx.strokeStyle = `hsla(${hue}, 100%, 60%, 1)`;
-
-    ctx.beginPath();
-    ctx.moveTo(-W*0.1 + xOff, y);
-    ctx.lineTo(W*1.1 + xOff, y + Math.sin(t*1.2 + i)*H*0.06);
-    ctx.stroke();
-    ctx.restore();
+  function createParticle() {
+    const colorIndex = Math.random() < 0.6 ? 0 : (Math.random() < 0.5 ? 1 : 2);
+    return {
+      x: Math.random() * W,
+      y: Math.random() * H,
+      vx: (Math.random() - 0.5) * 0.3 * dpr,
+      vy: (Math.random() - 0.5) * 0.3 * dpr,
+      radius: (Math.random() * 1.5 + 0.5) * dpr,
+      color: colors[colorIndex],
+      alpha: Math.random() * 0.5 + 0.2,
+      phase: Math.random() * Math.PI * 2,
+      pulseSpeed: Math.random() * 0.02 + 0.01,
+    };
   }
 
-  // Particles
-  ctx.save();
-  ctx.globalAlpha = clubMode ? 0.85 : 0.65;
-  for(const p of particles){
-    p.phase += 0.02;
-    p.x += p.vx;
-    p.y += p.vy;
-
-    if(p.x < -20) p.x = W+20;
-    if(p.x > W+20) p.x = -20;
-    if(p.y < -20) p.y = H+20;
-    if(p.y > H+20) p.y = -20;
-
-    const pulse = 0.7 + 0.3*Math.sin(p.phase + t*2.0);
-    const hue = (t*40 + (p.x/W)*240) % 360;
-
-    ctx.fillStyle = `hsla(${hue}, 100%, 60%, ${0.75*pulse})`;
-    ctx.beginPath();
-    ctx.arc(p.x, p.y, p.r*(0.9 + 0.4*pulse), 0, Math.PI*2);
-    ctx.fill();
+  // Initialize particles
+  for (let i = 0; i < PARTICLE_COUNT; i++) {
+    particles.push(createParticle());
   }
-  ctx.restore();
 
-  requestAnimationFrame(draw);
-}
-draw();
-
-// ----- Club Mode controls -----
-const strobeEl = document.querySelector(".strobe");
-const clubBtn = document.getElementById("clubToggle");
-const strobeBtn = document.getElementById("strobeToggle");
-
-function setClub(on){
-  clubMode = !!on;
-  if(clubBtn){
-    clubBtn.textContent = clubMode ? "Club Mode: ON" : "Club Mode: OFF";
-    clubBtn.setAttribute("aria-pressed", String(clubMode));
-  }
-}
-function setStrobe(on){
-  if(!strobeEl) return;
-  if(on) strobeEl.classList.add("on");
-  else strobeEl.classList.remove("on");
-  if(strobeBtn){
-    strobeBtn.textContent = on ? "Strobe: ON" : "Strobe: OFF";
-    strobeBtn.setAttribute("aria-pressed", String(!!on));
-  }
-}
-
-if(clubBtn){
-  clubBtn.addEventListener("click", ()=> setClub(!clubMode));
-  setClub(true);
-}
-if(strobeBtn){
-  strobeBtn.addEventListener("click", ()=>{
-    const on = !strobeEl.classList.contains("on");
-    setStrobe(on);
+  // Mouse interaction
+  let mouse = { x: null, y: null };
+  document.addEventListener('mousemove', (e) => {
+    mouse.x = e.clientX * dpr;
+    mouse.y = e.clientY * dpr;
   });
-  setStrobe(false);
+
+  function draw() {
+    if (!effectsEnabled) {
+      animationId = requestAnimationFrame(draw);
+      return;
+    }
+
+    ctx.clearRect(0, 0, W, H);
+
+    // Draw and update particles
+    for (const p of particles) {
+      // Update position
+      p.x += p.vx;
+      p.y += p.vy;
+      p.phase += p.pulseSpeed;
+
+      // Wrap around edges
+      if (p.x < -50) p.x = W + 50;
+      if (p.x > W + 50) p.x = -50;
+      if (p.y < -50) p.y = H + 50;
+      if (p.y > H + 50) p.y = -50;
+
+      // Mouse repulsion (subtle)
+      if (mouse.x !== null) {
+        const dx = p.x - mouse.x;
+        const dy = p.y - mouse.y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        if (dist < 150 * dpr) {
+          const force = (150 * dpr - dist) / (150 * dpr) * 0.5;
+          p.vx += (dx / dist) * force;
+          p.vy += (dy / dist) * force;
+        }
+      }
+
+      // Dampen velocity
+      p.vx *= 0.99;
+      p.vy *= 0.99;
+
+      // Pulse alpha
+      const pulse = 0.7 + 0.3 * Math.sin(p.phase);
+      const alpha = p.alpha * pulse;
+
+      // Draw particle with glow
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.radius * (0.8 + 0.2 * pulse), 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(${p.color.r}, ${p.color.g}, ${p.color.b}, ${alpha})`;
+      ctx.fill();
+
+      // Subtle glow
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.radius * 3, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(${p.color.r}, ${p.color.g}, ${p.color.b}, ${alpha * 0.1})`;
+      ctx.fill();
+    }
+
+    // Draw subtle connection lines between nearby particles
+    ctx.strokeStyle = 'rgba(232, 169, 70, 0.04)';
+    ctx.lineWidth = 1 * dpr;
+    for (let i = 0; i < particles.length; i++) {
+      for (let j = i + 1; j < particles.length; j++) {
+        const dx = particles[i].x - particles[j].x;
+        const dy = particles[i].y - particles[j].y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        if (dist < 120 * dpr) {
+          ctx.globalAlpha = (1 - dist / (120 * dpr)) * 0.3;
+          ctx.beginPath();
+          ctx.moveTo(particles[i].x, particles[i].y);
+          ctx.lineTo(particles[j].x, particles[j].y);
+          ctx.stroke();
+        }
+      }
+    }
+    ctx.globalAlpha = 1;
+
+    animationId = requestAnimationFrame(draw);
+  }
+
+  draw();
+
+  // Toggle effects
+  window.toggleEffects = function(enabled) {
+    effectsEnabled = enabled;
+    canvas.style.opacity = enabled ? '0.6' : '0';
+  };
 }
 
+// ═══════════════════════════════════════════════════════════
+//  CONTROLS — Club Mode & Strobe
+// ═══════════════════════════════════════════════════════════
+
+const clubToggle = document.getElementById('club-toggle');
+const strobeToggle = document.getElementById('strobe-toggle');
+const strobeOverlay = document.querySelector('.strobe-overlay');
+
+let clubMode = true;
+let strobeActive = false;
+
+if (clubToggle) {
+  clubToggle.addEventListener('click', () => {
+    clubMode = !clubMode;
+    clubToggle.classList.toggle('active', clubMode);
+    clubToggle.querySelector('.status').textContent = clubMode ? 'ON' : 'OFF';
+    
+    if (window.toggleEffects) {
+      window.toggleEffects(clubMode);
+    }
+    
+    document.body.classList.toggle('effects-off', !clubMode);
+  });
+}
+
+if (strobeToggle && strobeOverlay) {
+  strobeToggle.addEventListener('click', () => {
+    strobeActive = !strobeActive;
+    strobeToggle.classList.toggle('active', strobeActive);
+    strobeToggle.querySelector('.status').textContent = strobeActive ? 'ON' : 'OFF';
+    strobeOverlay.classList.toggle('active', strobeActive);
+  });
+}
+
+// ═══════════════════════════════════════════════════════════
+//  SMOOTH SCROLL
+// ═══════════════════════════════════════════════════════════
+
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+  anchor.addEventListener('click', function(e) {
+    const targetId = this.getAttribute('href');
+    if (targetId === '#') return;
+    
+    const target = document.querySelector(targetId);
+    if (target) {
+      e.preventDefault();
+      target.scrollIntoView({ behavior: 'smooth' });
+    }
+  });
+});
+
+// ═══════════════════════════════════════════════════════════
+//  INTERSECTION OBSERVER FOR ANIMATIONS
+// ═══════════════════════════════════════════════════════════
+
+const observerOptions = {
+  threshold: 0.1,
+  rootMargin: '0px 0px -50px 0px'
+};
+
+const fadeInObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+      fadeInObserver.unobserve(entry.target);
+    }
+  });
+}, observerOptions);
+
+document.querySelectorAll('.card, .stat-card, .info-card, .panel').forEach(el => {
+  el.style.opacity = '0';
+  el.style.transform = 'translateY(20px)';
+  el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+  fadeInObserver.observe(el);
+});
+
+// Add visible class styles
+const style = document.createElement('style');
+style.textContent = `
+  .card.visible, .stat-card.visible, .info-card.visible, .panel.visible {
+    opacity: 1 !important;
+    transform: translateY(0) !important;
+  }
+`;
+document.head.appendChild(style);
+
+// ═══════════════════════════════════════════════════════════
+//  YEAR IN FOOTER
+// ═══════════════════════════════════════════════════════════
+
+const yearEl = document.getElementById('year');
+if (yearEl) {
+  yearEl.textContent = new Date().getFullYear();
+}
+
+// ═══════════════════════════════════════════════════════════
+//  FORM HANDLING (Demo)
+// ═══════════════════════════════════════════════════════════
+
+const bookingForm = document.getElementById('booking-form');
+if (bookingForm) {
+  bookingForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    alert('Demo form — connect to Formspree, Netlify Forms, or your backend to receive inquiries.');
+  });
+}
