@@ -1,0 +1,118 @@
+{
+  "site": {
+    "djName": "DJ MARIO",
+    "tagline": "House • Club • Energy",
+    "location": "Chicago",
+    "since": "2019",
+    "bio": "Born from late nights in Chicago's underground scene, DJ Mario brings an authentic house music perspective to every performance. Whether it's a warehouse rave or an upscale lounge, the mission stays the same: connect people through sound, create energy that's undeniable.",
+    "heroTitle": "HOUSE MUSIC REDEFINED",
+    "heroDescription": "Deep grooves, driving rhythms, and that unmistakable energy that moves a room. From intimate lounges to festival stages."
+  },
+  "socials": {
+    "instagram": "",
+    "soundcloud": "",
+    "mixcloud": "",
+    "youtube": "",
+    "spotify": ""
+  },
+  "events": [
+    {
+      "id": 1,
+      "date": "2025-01-18",
+      "venue": "Neon Room",
+      "city": "Chicago",
+      "tags": ["House Night", "10PM — 2AM"],
+      "rsvpLink": "",
+      "isPrivate": false
+    },
+    {
+      "id": 2,
+      "date": "2025-02-07",
+      "venue": "Warehouse Pop-Up",
+      "city": "Chicago",
+      "tags": ["Deep House", "Special Set"],
+      "rsvpLink": "",
+      "isPrivate": false
+    },
+    {
+      "id": 3,
+      "date": "2025-02-22",
+      "venue": "Private Event",
+      "city": "Chicago",
+      "tags": ["VIP", "All Night"],
+      "rsvpLink": "",
+      "isPrivate": true
+    },
+    {
+      "id": 4,
+      "date": "2025-03-15",
+      "venue": "Club Paradiso",
+      "city": "Chicago",
+      "tags": ["Peak Time", "12AM — 4AM"],
+      "rsvpLink": "",
+      "isPrivate": false
+    }
+  ],
+  "mixes": [
+    {
+      "id": 1,
+      "title": "Midnight House Session",
+      "tags": ["Groovy", "Club"],
+      "duration": "1:24:00",
+      "embedUrl": "",
+      "isFeatured": true
+    },
+    {
+      "id": 2,
+      "title": "Deep & Clean Vol. 3",
+      "tags": ["Deep", "Late Night"],
+      "duration": "1:58:00",
+      "embedUrl": "",
+      "isFeatured": false
+    },
+    {
+      "id": 3,
+      "title": "Festival Lift-Off",
+      "tags": ["High Energy", "Peak"],
+      "duration": "1:12:00",
+      "embedUrl": "",
+      "isFeatured": false
+    },
+    {
+      "id": 4,
+      "title": "Warehouse Chronicles",
+      "tags": ["Raw", "Underground"],
+      "duration": "2:15:00",
+      "embedUrl": "",
+      "isFeatured": false
+    },
+    {
+      "id": 5,
+      "title": "Sunday Morning Sessions",
+      "tags": ["Chill", "Afterhours"],
+      "duration": "1:45:00",
+      "embedUrl": "",
+      "isFeatured": false
+    }
+  ],
+  "services": [
+    {
+      "id": 1,
+      "icon": "🎛️",
+      "title": "Set Types",
+      "description": "Club sets • Private parties • Lounges • Festival openers • Afterhours sessions"
+    },
+    {
+      "id": 2,
+      "icon": "🔊",
+      "title": "Technical",
+      "description": "Pioneer CDJ/DJM setup or controller. USB and digital ready. Coordinate with house sound."
+    },
+    {
+      "id": 3,
+      "icon": "✨",
+      "title": "Extras",
+      "description": "Optional compact lighting package for smaller venues. Haze-ready atmosphere when permitted."
+    }
+  ]
+}
