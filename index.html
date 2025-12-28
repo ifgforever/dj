@@ -1,134 +1,135 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>DJ NIGHTFREQ</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<style>
-:root {
-  --neon1: #ff00ff;
-  --neon2: #00ffff;
-  --bg: #050008;
-}
-
-body {
-  margin: 0;
-  font-family: 'Arial Black', sans-serif;
-  background: radial-gradient(circle at top, #12001a, var(--bg));
-  color: white;
-  overflow-x: hidden;
-}
-
-/* Animated background */
-.bg-animate {
-  position: fixed;
-  inset: 0;
-  background: linear-gradient(120deg, var(--neon1), var(--neon2));
-  opacity: 0.12;
-  animation: pulse 6s infinite alternate;
-  z-index: -1;
-}
-
-@keyframes pulse {
-  0% { filter: blur(40px); }
-  100% { filter: blur(80px); }
-}
-
-/* Strobe overlay */
-.strobe {
-  position: fixed;
-  inset: 0;
-  background: white;
-  opacity: 0;
-  animation: strobe 4s infinite;
-  pointer-events: none;
-}
-
-@keyframes strobe {
-  0%, 95% { opacity: 0; }
-  96% { opacity: .3; }
-  97% { opacity: 0; }
-}
-
-/* Hero */
-.hero {
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-}
-
-.hero h1 {
-  font-size: clamp(3rem, 10vw, 6rem);
-  color: var(--neon2);
-  text-shadow: 0 0 20px var(--neon2);
-  animation: glow 1.5s infinite alternate;
-}
-
-@keyframes glow {
-  from { text-shadow: 0 0 10px var(--neon1); }
-  to { text-shadow: 0 0 30px var(--neon2); }
-}
-
-.section {
-  padding: 80px 20px;
-  max-width: 1000px;
-  margin: auto;
-}
-
-.card {
-  background: rgba(0,0,0,0.6);
-  border: 1px solid rgba(255,255,255,0.1);
-  border-radius: 16px;
-  padding: 30px;
-  box-shadow: 0 0 30px rgba(0,255,255,.2);
-}
-
-a {
-  color: var(--neon1);
-  text-decoration: none;
-}
-
-a:hover {
-  text-shadow: 0 0 10px var(--neon1);
-}
-</style>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>DJ Mario — House Music</title>
+  <link rel="stylesheet" href="assets/style.css"/>
 </head>
-
 <body>
+  <div class="ambient"></div>
+  <canvas id="fx"></canvas>
+  <div class="strobe"></div>
 
-<div class="bg-animate"></div>
-<div class="strobe"></div>
+  <header class="nav">
+    <div class="nav-inner">
+      <a class="brand" href="index.html">
+        <span class="badge" aria-hidden="true"></span>
+        <div>
+          <strong>DJ MARIO</strong><br/>
+          <span style="color:var(--muted); font-size:12px; letter-spacing:1px;">HOUSE • CLUB • ENERGY</span>
+        </div>
+      </a>
 
-<section class="hero">
-  <div>
-    <h1>DJ NIGHTFREQ</h1>
-    <p>High-energy mixes • Clubs • Festivals</p>
-  </div>
-</section>
+      <nav class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="mixes.html">Mixes</a>
+        <a href="events.html">Events</a>
+        <a href="booking.html">Booking</a>
+      </nav>
+    </div>
+  </header>
 
-<section class="section">
-  <div class="card">
-    <h2>About</h2>
-    <p>DJ NightFreq brings high-voltage energy to every set — blending house, EDM, and bass-driven beats to keep the dance floor alive.</p>
-  </div>
-</section>
+  <main class="container">
+    <section class="hero">
+      <div class="panel hero-main">
+        <div class="lasers"></div>
+        <div class="kicker">DEMO EXPERIENCE • DJ MARIO</div>
+        <h1 class="title">HOUSE MUSIC<br/>WITH <span style="color:var(--n1)">LIGHTS</span> & <span style="color:var(--n2)">MOTION</span></h1>
+        <p class="subtitle">
+          This is a high-energy demo page built to show how your brand can feel online:
+          neon visuals, laser sweeps, particles, strobes, and a club vibe that sells the set before the first drop.
+        </p>
 
-<section class="section">
-  <div class="card">
-    <h2>Listen</h2>
-    <p>Mixes coming soon — SoundCloud / YouTube embeds go here.</p>
-  </div>
-</section>
+        <div class="cta-row">
+          <a class="btn primary" href="mixes.html">View Mixes</a>
+          <a class="btn" href="events.html">See Events</a>
+          <button class="btn small" id="clubToggle" type="button" aria-pressed="true">Club Mode: ON</button>
+          <button class="btn small" id="strobeToggle" type="button" aria-pressed="false">Strobe: OFF</button>
+        </div>
 
-<section class="section">
-  <div class="card">
-    <h2>Bookings</h2>
-    <p>Email: <a href="mailto:bookings@djnightfreq.com">bookings@djnightfreq.com</a></p>
-  </div>
-</section>
+        <hr class="sep"/>
 
+        <div class="grid">
+          <div class="card">
+            <h4>🔊 Brand Energy</h4>
+            <p>Built for house — glow, motion, and that “nightlife” tension.</p>
+          </div>
+          <div class="card">
+            <h4>🪩 Visual Hooks</h4>
+            <p>Strobes + lasers + particles make the site feel alive.</p>
+          </div>
+          <div class="card">
+            <h4>📲 Bookings Ready</h4>
+            <p>Booking page set up for quick inquiry + socials.</p>
+          </div>
+        </div>
+      </div>
+
+      <aside class="panel hero-side">
+        <div class="meter">
+          <h3>ENERGY METER</h3>
+          <div class="bar"><span></span></div>
+          <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:10px;">
+            <span class="tag">House</span>
+            <span class="tag">Club</span>
+            <span class="tag">Festival</span>
+            <span class="tag">Neon</span>
+          </div>
+        </div>
+
+        <div class="meter">
+          <h3>DEMO NOTES</h3>
+          <p style="margin:0; color:var(--muted); line-height:1.6;">
+            Swap the name, photos, mixes, and event list — everything else is ready.
+            Add a logo later and this becomes a polished pro site.
+          </p>
+        </div>
+
+        <div class="meter">
+          <h3>CALL TO ACTION</h3>
+          <p style="margin:0 0 10px; color:var(--muted); line-height:1.6;">
+            Want this as your official site?
+          </p>
+          <a class="btn primary" href="booking.html">Get Booked</a>
+        </div>
+      </aside>
+    </section>
+
+    <section class="panel" style="padding:22px 22px;">
+      <div class="lasers"></div>
+      <h2 class="section-title">What this demo proves</h2>
+      <p class="section-sub">
+        DJs don’t sell “pages” — they sell a vibe. This design makes your brand feel like a live set:
+        energetic, premium, and shareable.
+      </p>
+      <div class="grid">
+        <div class="card">
+          <h4>⚡ Motion everywhere</h4>
+          <p>Subtle glow animation + moving lasers keeps attention without being messy.</p>
+        </div>
+        <div class="card">
+          <h4>🧠 Easy upgrades</h4>
+          <p>Add SoundCloud, YouTube, Instagram, and a booking form service.</p>
+        </div>
+        <div class="card">
+          <h4>💼 Booking focused</h4>
+          <p>Promoters see the vibe + find the booking button fast.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <div>© <span id="year"></span> DJ Mario (Demo)</div>
+      <div>House Music • Chicago • Clubs • Private Events</div>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
+  <script src="assets/app.js"></script>
 </body>
 </html>
