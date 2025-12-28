@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>DJ NIGHTFREQ</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+:root {
+  --neon1: #ff00ff;
+  --neon2: #00ffff;
+  --bg: #050008;
+}
+
+body {
+  margin: 0;
+  font-family: 'Arial Black', sans-serif;
+  background: radial-gradient(circle at top, #12001a, var(--bg));
+  color: white;
+  overflow-x: hidden;
+}
+
+/* Animated background */
+.bg-animate {
+  position: fixed;
+  inset: 0;
+  background: linear-gradient(120deg, var(--neon1), var(--neon2));
+  opacity: 0.12;
+  animation: pulse 6s infinite alternate;
+  z-index: -1;
+}
+
+@keyframes pulse {
+  0% { filter: blur(40px); }
+  100% { filter: blur(80px); }
+}
+
+/* Strobe overlay */
+.strobe {
+  position: fixed;
+  inset: 0;
+  background: white;
+  opacity: 0;
+  animation: strobe 4s infinite;
+  pointer-events: none;
+}
+
+@keyframes strobe {
+  0%, 95% { opacity: 0; }
+  96% { opacity: .3; }
+  97% { opacity: 0; }
+}
+
+/* Hero */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.hero h1 {
+  font-size: clamp(3rem, 10vw, 6rem);
+  color: var(--neon2);
+  text-shadow: 0 0 20px var(--neon2);
+  animation: glow 1.5s infinite alternate;
+}
+
+@keyframes glow {
+  from { text-shadow: 0 0 10px var(--neon1); }
+  to { text-shadow: 0 0 30px var(--neon2); }
+}
+
+.section {
+  padding: 80px 20px;
+  max-width: 1000px;
+  margin: auto;
+}
+
+.card {
+  background: rgba(0,0,0,0.6);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 16px;
+  padding: 30px;
+  box-shadow: 0 0 30px rgba(0,255,255,.2);
+}
+
+a {
+  color: var(--neon1);
+  text-decoration: none;
+}
+
+a:hover {
+  text-shadow: 0 0 10px var(--neon1);
+}
+</style>
+</head>
+
+<body>
+
+<div class="bg-animate"></div>
+<div class="strobe"></div>
+
+<section class="hero">
+  <div>
+    <h1>DJ NIGHTFREQ</h1>
+    <p>High-energy mixes • Clubs • Festivals</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="card">
+    <h2>About</h2>
+    <p>DJ NightFreq brings high-voltage energy to every set — blending house, EDM, and bass-driven beats to keep the dance floor alive.</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="card">
+    <h2>Listen</h2>
+    <p>Mixes coming soon — SoundCloud / YouTube embeds go here.</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="card">
+    <h2>Bookings</h2>
+    <p>Email: <a href="mailto:bookings@djnightfreq.com">bookings@djnightfreq.com</a></p>
+  </div>
+</section>
+
+</body>
+</html>
