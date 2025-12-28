@@ -3,24 +3,30 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>DJ MARIO — Mixes</title>
+  <title>DJ MARIO — House Music</title>
   <link rel="stylesheet" href="assets/style.css">
 </head>
 <body>
-  <!-- Atmospheric layers -->
+  <!-- Background layers -->
   <div class="atmosphere"></div>
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+  <div class="orb orb-3"></div>
+  <div class="grid-floor"></div>
   <canvas id="fx-canvas"></canvas>
+  <canvas id="laser-canvas"></canvas>
+  <div class="scanlines"></div>
   <div class="grain"></div>
-  <div class="strobe-overlay"></div>
+  <div class="strobe"></div>
 
   <!-- Navigation -->
   <header class="nav">
     <div class="nav-inner">
       <a class="brand" href="index.html">
         <div class="brand-mark">DM</div>
-        <div class="brand-text">
-          <span class="brand-name">DJ MARIO</span>
-          <span class="brand-tagline">House • Club • Energy</span>
+        <div>
+          <div class="brand-name">DJ MARIO</div>
+          <div class="brand-tagline">House • Club • Energy</div>
         </div>
       </a>
       <nav class="nav-links">
@@ -32,125 +38,158 @@
     </div>
   </header>
 
-  <!-- Main content -->
   <main class="main">
     <div class="container">
-      
-      <section class="section" style="padding-top: 60px;">
-        <div class="panel">
-          <div class="section-header">
-            <div class="section-label">Listen</div>
-            <h1 class="section-title">MIXES</h1>
-            <p class="section-description">
-              Recorded sets and exclusive mixes. Drop in your SoundCloud, Mixcloud, 
-              or YouTube embeds below.
-            </p>
-          </div>
 
-          <div class="controls" style="border-top: none; padding-top: 0; margin-top: 0; margin-bottom: 32px;">
+      <!-- Hero -->
+      <section class="hero">
+        <!-- Spinning rings graphic -->
+        <div class="hero-rings">
+          <div class="ring ring-1"></div>
+          <div class="ring ring-2"></div>
+          <div class="ring ring-3"></div>
+          <div class="ring ring-4"></div>
+          <div class="ring-center"></div>
+        </div>
+
+        <div class="hero-content">
+          <div class="hero-label">Chicago House • Since 2019</div>
+          <h1 class="hero-title">
+            HOUSE<br>
+            <span class="grad">MUSIC</span><br>
+            REDEFINED
+          </h1>
+          <p class="hero-desc">
+            Deep grooves, driving rhythms, and that unmistakable energy that moves a room. 
+            From intimate lounges to festival stages.
+          </p>
+          <div class="hero-actions">
+            <a href="mixes.html" class="btn primary">Listen to Mixes</a>
+            <a href="booking.html" class="btn">Book a Set</a>
+            <a href="events.html" class="btn">Events</a>
+          </div>
+          
+          <div class="controls">
             <button class="control-btn active" id="club-toggle">
-              <span class="indicator"></span>
+              <span class="dot"></span>
               Club Mode: <span class="status">ON</span>
             </button>
             <button class="control-btn" id="strobe-toggle">
-              <span class="indicator"></span>
+              <span class="dot"></span>
               Strobe: <span class="status">OFF</span>
             </button>
           </div>
+        </div>
 
-          <!-- Featured mix -->
-          <div style="display: grid; grid-template-columns: 1.3fr 0.7fr; gap: 24px; margin-bottom: 40px;">
-            <div class="card" style="margin: 0;">
-              <h4 style="margin-bottom: 16px;">Featured Mix</h4>
-              <div class="embed-placeholder">
-                <div class="icon">🎵</div>
-                <p>Paste your SoundCloud or Mixcloud embed here</p>
-                <code style="display: block; margin-top: 12px; font-size: 12px; color: var(--text-muted);">
-                  &lt;iframe ...&gt;&lt;/iframe&gt;
-                </code>
+        <aside class="hero-sidebar">
+          <div class="stat-card">
+            <div class="stat-label">Energy Level</div>
+            <div class="stat-value">128<span class="unit">BPM</span></div>
+            <div class="energy-bar">
+              <div class="energy-track"><div class="energy-fill"></div></div>
+            </div>
+            <div class="tags">
+              <span class="tag">House</span>
+              <span class="tag">Tech</span>
+              <span class="tag">Deep</span>
+              <span class="tag">Club</span>
+            </div>
+            <!-- EQ Bars -->
+            <div class="eq-bars" style="margin-top: 20px;">
+              <div class="eq-bar"></div>
+              <div class="eq-bar"></div>
+              <div class="eq-bar"></div>
+              <div class="eq-bar"></div>
+              <div class="eq-bar"></div>
+              <div class="eq-bar"></div>
+              <div class="eq-bar"></div>
+              <div class="eq-bar"></div>
+            </div>
+          </div>
+
+          <div class="info-card">
+            <h3>The Sound</h3>
+            <p>
+              Blending Chicago roots with modern production. Each set is a journey — 
+              building tension, finding the pocket, and delivering those moments.
+            </p>
+            <!-- Waveform -->
+            <div class="waveform">
+              <span style="height:20px"></span><span style="height:35px"></span><span style="height:50px"></span>
+              <span style="height:40px"></span><span style="height:60px"></span><span style="height:45px"></span>
+              <span style="height:70px"></span><span style="height:55px"></span><span style="height:75px"></span>
+              <span style="height:50px"></span><span style="height:65px"></span><span style="height:40px"></span>
+              <span style="height:55px"></span><span style="height:70px"></span><span style="height:45px"></span>
+              <span style="height:60px"></span><span style="height:35px"></span><span style="height:50px"></span>
+              <span style="height:65px"></span><span style="height:40px"></span><span style="height:55px"></span>
+              <span style="height:30px"></span><span style="height:45px"></span><span style="height:60px"></span>
+            </div>
+          </div>
+
+          <div class="info-card">
+            <h3>Ready to Book?</h3>
+            <p>Available for clubs, private events, festivals, and afterhours.</p>
+            <a href="booking.html" class="btn primary" style="margin-top: 16px;">Get in Touch</a>
+          </div>
+        </aside>
+      </section>
+
+      <!-- Features -->
+      <section class="section">
+        <div class="section-header">
+          <div class="section-label">What Sets Me Apart</div>
+          <h2 class="section-title">THE EXPERIENCE</h2>
+          <p class="section-desc">
+            More than just playing tracks — it's about reading the room, 
+            building energy, and creating moments people remember.
+          </p>
+        </div>
+
+        <div class="grid-3">
+          <div class="card">
+            <div class="card-icon">🎧</div>
+            <h4>Curated Sound</h4>
+            <p>Deep crates, fresh cuts, and timeless classics. Every track selected to serve the moment.</p>
+          </div>
+          <div class="card">
+            <div class="card-icon">⚡</div>
+            <h4>Dynamic Energy</h4>
+            <p>From low-key grooves to peak-time intensity. Sets that breathe, build, and take the room on a journey.</p>
+          </div>
+          <div class="card">
+            <div class="card-icon">🎛️</div>
+            <h4>Technical Precision</h4>
+            <p>Clean mixing, creative transitions, and thoughtful arrangements. The details that separate good from great.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- About -->
+      <section class="section">
+        <div class="panel">
+          <div class="section-header">
+            <div class="section-label">About</div>
+            <h2 class="section-title">THE STORY</h2>
+          </div>
+          <p style="color: #a1a1aa; max-width: 700px; line-height: 1.9; font-size: 16px; margin-bottom: 24px;">
+            Born from late nights in Chicago's underground scene, DJ Mario brings 
+            an authentic house music perspective to every performance. Whether it's 
+            a warehouse rave or an upscale lounge, the mission stays the same: 
+            connect people through sound, create energy that's undeniable.
+          </p>
+          
+          <!-- Vinyl -->
+          <div style="display: flex; align-items: center; gap: 32px; flex-wrap: wrap; margin-top: 32px;">
+            <div class="vinyl-wrap">
+              <div class="vinyl"></div>
+            </div>
+            <div>
+              <p style="color: var(--muted); font-size: 13px; margin: 0 0 16px;">Click the vinyl to pause/play</p>
+              <div style="display: flex; gap: 12px;">
+                <a href="events.html" class="btn">See Events</a>
+                <a href="mixes.html" class="btn">Mixes</a>
               </div>
             </div>
-            <div class="card" style="margin: 0;">
-              <h4 style="margin-bottom: 16px;">Quick Links</h4>
-              <ul style="list-style: none; padding: 0; margin: 0; color: var(--text-secondary);">
-                <li style="padding: 12px 0; border-bottom: 1px solid var(--border);">→ Latest live recording</li>
-                <li style="padding: 12px 0; border-bottom: 1px solid var(--border);">→ Deep house selections</li>
-                <li style="padding: 12px 0; border-bottom: 1px solid var(--border);">→ Club classics revisited</li>
-                <li style="padding: 12px 0;">→ Festival energy set</li>
-              </ul>
-            </div>
-          </div>
-
-          <!-- Mix library -->
-          <div class="section-header" style="margin-top: 40px;">
-            <div class="section-label">Archive</div>
-            <h2 class="section-title" style="font-size: 36px;">MIX LIBRARY</h2>
-          </div>
-
-          <div class="table-wrap">
-            <table class="data-table">
-              <thead>
-                <tr>
-                  <th>Mix</th>
-                  <th>Style</th>
-                  <th>Duration</th>
-                  <th></th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td style="font-weight: 600;">Midnight House Session</td>
-                  <td>
-                    <span class="tag">Groovy</span>
-                    <span class="tag">Club</span>
-                  </td>
-                  <td style="color: var(--text-muted);">1:24:00</td>
-                  <td><a href="#" class="btn sm" onclick="return false;">Play</a></td>
-                </tr>
-                <tr>
-                  <td style="font-weight: 600;">Deep & Clean Vol. 3</td>
-                  <td>
-                    <span class="tag">Deep</span>
-                    <span class="tag">Late Night</span>
-                  </td>
-                  <td style="color: var(--text-muted);">1:58:00</td>
-                  <td><a href="#" class="btn sm" onclick="return false;">Play</a></td>
-                </tr>
-                <tr>
-                  <td style="font-weight: 600;">Festival Lift-Off</td>
-                  <td>
-                    <span class="tag">High Energy</span>
-                    <span class="tag">Peak Time</span>
-                  </td>
-                  <td style="color: var(--text-muted);">1:12:00</td>
-                  <td><a href="#" class="btn sm" onclick="return false;">Play</a></td>
-                </tr>
-                <tr>
-                  <td style="font-weight: 600;">Warehouse Chronicles</td>
-                  <td>
-                    <span class="tag">Raw</span>
-                    <span class="tag">Underground</span>
-                  </td>
-                  <td style="color: var(--text-muted);">2:15:00</td>
-                  <td><a href="#" class="btn sm" onclick="return false;">Play</a></td>
-                </tr>
-                <tr>
-                  <td style="font-weight: 600;">Sunday Morning Sessions</td>
-                  <td>
-                    <span class="tag">Chill</span>
-                    <span class="tag">Afterhours</span>
-                  </td>
-                  <td style="color: var(--text-muted);">1:45:00</td>
-                  <td><a href="#" class="btn sm" onclick="return false;">Play</a></td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-
-          <div class="controls" style="margin-top: 32px;">
-            <a href="#" class="btn" onclick="return false;">SoundCloud</a>
-            <a href="#" class="btn ghost" onclick="return false;">Mixcloud</a>
-            <a href="#" class="btn ghost" onclick="return false;">YouTube</a>
           </div>
         </div>
       </section>
@@ -158,11 +197,10 @@
     </div>
   </main>
 
-  <!-- Footer -->
   <footer class="footer">
     <div class="footer-inner">
       <div class="footer-brand">DJ MARIO</div>
-      <div class="footer-info">For bookings: <a href="booking.html" style="color: var(--accent); text-decoration: none;">booking.html</a></div>
+      <div class="footer-info">© <span id="year"></span> • Chicago House Music</div>
     </div>
   </footer>
 
