@@ -1,23 +1,26 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8"/>
-  <meta name="viewport" content="width=device-width,initial-scale=1"/>
-  <title>DJ Mario — Booking</title>
-  <link rel="stylesheet" href="assets/style.css"/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DJ MARIO — Booking</title>
+  <link rel="stylesheet" href="assets/style.css">
 </head>
 <body>
-  <div class="ambient"></div>
-  <canvas id="fx"></canvas>
-  <div class="strobe"></div>
+  <!-- Atmospheric layers -->
+  <div class="atmosphere"></div>
+  <canvas id="fx-canvas"></canvas>
+  <div class="grain"></div>
+  <div class="strobe-overlay"></div>
 
+  <!-- Navigation -->
   <header class="nav">
     <div class="nav-inner">
       <a class="brand" href="index.html">
-        <span class="badge" aria-hidden="true"></span>
-        <div>
-          <strong>DJ MARIO</strong><br/>
-          <span style="color:var(--muted); font-size:12px; letter-spacing:1px;">HOUSE • CLUB • ENERGY</span>
+        <div class="brand-mark">DM</div>
+        <div class="brand-text">
+          <span class="brand-name">DJ MARIO</span>
+          <span class="brand-tagline">House • Club • Energy</span>
         </div>
       </a>
       <nav class="nav-links">
@@ -29,79 +32,135 @@
     </div>
   </header>
 
-  <main class="container">
-    <section class="panel" style="padding:22px;">
-      <div class="lasers"></div>
-      <div class="kicker">BOOKING</div>
-      <h1 class="title" style="font-size: clamp(34px, 5vw, 56px);">Book DJ Mario</h1>
-      <p class="section-sub">This is a demo booking page. You can wire it to Formspree, Google Forms, or email.</p>
-
-      <div class="cta-row">
-        <button class="btn small" id="clubToggle" type="button" aria-pressed="true">Club Mode: ON</button>
-        <button class="btn small" id="strobeToggle" type="button" aria-pressed="false">Strobe: OFF</button>
-        <a class="btn" href="mixes.html">Hear Mixes</a>
-      </div>
-
-      <hr class="sep"/>
-
-      <!-- Demo form (no backend). Swap action="" for Formspree later -->
-      <form onsubmit="event.preventDefault(); alert('Demo form — connect to Formspree to receive inquiries.');">
-        <div class="form-grid">
-          <div>
-            <label>Name</label>
-            <input placeholder="Promoter / Client name" required/>
+  <!-- Main content -->
+  <main class="main">
+    <div class="container">
+      
+      <section class="section" style="padding-top: 60px;">
+        <div class="panel">
+          <div class="section-header">
+            <div class="section-label">Get in Touch</div>
+            <h1 class="section-title">BOOKING</h1>
+            <p class="section-description">
+              Ready to bring the energy? Fill out the form below and I'll get back to you 
+              within 24 hours.
+            </p>
           </div>
-          <div>
-            <label>Email</label>
-            <input type="email" placeholder="you@email.com" required/>
-          </div>
-          <div>
-            <label>Event Date</label>
-            <input type="date" required/>
-          </div>
-          <div>
-            <label>Location</label>
-            <input placeholder="Venue / City" required/>
-          </div>
-        </div>
 
-        <div style="margin-top:12px;">
-          <label>Tell us the vibe</label>
-          <textarea placeholder="House style (deep/tech/classic), set length, time slot, crowd size, equipment, lighting..."></textarea>
-        </div>
+          <div class="controls" style="border-top: none; padding-top: 0; margin-top: 0; margin-bottom: 32px;">
+            <button class="control-btn active" id="club-toggle">
+              <span class="indicator"></span>
+              Club Mode: <span class="status">ON</span>
+            </button>
+            <button class="control-btn" id="strobe-toggle">
+              <span class="indicator"></span>
+              Strobe: <span class="status">OFF</span>
+            </button>
+            <a href="mixes.html" class="btn ghost">Hear Mixes First</a>
+          </div>
 
-        <div class="cta-row" style="margin-top:12px;">
-          <button class="btn primary" type="submit">Send Booking Request</button>
-          <a class="btn" href="#" onclick="return false;">Instagram</a>
-          <a class="btn" href="#" onclick="return false;">SoundCloud</a>
-        </div>
-      </form>
+          <!-- Booking form -->
+          <form id="booking-form" style="max-width: 700px;">
+            <div class="form-grid">
+              <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" id="name" class="form-input" placeholder="Promoter / Client name" required>
+              </div>
+              <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" class="form-input" placeholder="you@email.com" required>
+              </div>
+              <div class="form-group">
+                <label for="date">Event Date</label>
+                <input type="date" id="date" class="form-input" required>
+              </div>
+              <div class="form-group">
+                <label for="location">Location</label>
+                <input type="text" id="location" class="form-input" placeholder="Venue / City" required>
+              </div>
+            </div>
 
-      <div class="grid" style="margin-top:18px;">
-        <div class="card">
-          <h4>✅ Fast replies</h4>
-          <p>Promoters get a quick response + clear technical requirements.</p>
+            <div class="form-group">
+              <label for="vibe">Tell Me About the Event</label>
+              <textarea id="vibe" class="form-input" placeholder="House style (deep/tech/classic), set length, time slot, expected crowd size, equipment provided, any lighting/production details..."></textarea>
+            </div>
+
+            <div style="display: flex; flex-wrap: wrap; gap: 14px; margin-top: 24px;">
+              <button type="submit" class="btn primary">Send Booking Request</button>
+              <a href="#" class="btn ghost" onclick="return false;">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+                  <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+                  <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+                </svg>
+                Instagram
+              </a>
+              <a href="#" class="btn ghost" onclick="return false;">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 2C6.477 2 2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.879V14.89h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.989C18.343 21.129 22 16.99 22 12c0-5.523-4.477-10-10-10z"/>
+                </svg>
+                SoundCloud
+              </a>
+            </div>
+          </form>
+
+          <!-- Info cards -->
+          <div class="section-header" style="margin-top: 60px;">
+            <div class="section-label">Why Work With Me</div>
+            <h2 class="section-title" style="font-size: 36px;">WHAT YOU GET</h2>
+          </div>
+
+          <div class="grid-3">
+            <div class="card">
+              <div class="card-icon">⚡</div>
+              <h4>Fast Response</h4>
+              <p>
+                Quick replies to all inquiries. Clear communication on 
+                availability, rates, and technical requirements.
+              </p>
+            </div>
+            <div class="card">
+              <div class="card-icon">🎚️</div>
+              <h4>Flexible Sets</h4>
+              <p>
+                Opening warmups, peak time, afterhours — I tailor the energy 
+                to exactly what your event needs.
+              </p>
+            </div>
+            <div class="card">
+              <div class="card-icon">✨</div>
+              <h4>Optional Extras</h4>
+              <p>
+                Compact lighting package available for intimate venues. 
+                Let's make your space feel like a proper club.
+              </p>
+            </div>
+          </div>
+
+          <!-- Rates info -->
+          <div class="info-card" style="margin-top: 32px; max-width: 700px;">
+            <h3>A Note on Rates</h3>
+            <p>
+              Every event is different. Rates depend on set length, venue type, 
+              travel requirements, and date availability. Fill out the form above 
+              and I'll send over a custom quote within 24 hours. No obligations — 
+              let's just start the conversation.
+            </p>
+          </div>
         </div>
-        <div class="card">
-          <h4>🎚️ Flexible sets</h4>
-          <p>Openers, peak time, afterhours — tailored energy.</p>
-        </div>
-        <div class="card">
-          <h4>🪩 Optional lighting</h4>
-          <p>Pitch: compact lights + haze-ready vibe for small rooms.</p>
-        </div>
-      </div>
-    </section>
+      </section>
+
+    </div>
   </main>
 
+  <!-- Footer -->
   <footer class="footer">
     <div class="footer-inner">
-      <div>DJ Mario (Demo)</div>
-      <div>Turn this into a live booking funnel</div>
+      <div class="footer-brand">DJ MARIO</div>
+      <div class="footer-info">Turn inquiries into bookings</div>
     </div>
   </footer>
 
   <script src="assets/app.js"></script>
 </body>
 </html>
-
