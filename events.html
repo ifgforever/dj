@@ -7,20 +7,26 @@
   <link rel="stylesheet" href="assets/style.css">
 </head>
 <body>
-  <!-- Atmospheric layers -->
+  <!-- Background layers -->
   <div class="atmosphere"></div>
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+  <div class="orb orb-3"></div>
+  <div class="grid-floor"></div>
   <canvas id="fx-canvas"></canvas>
+  <canvas id="laser-canvas"></canvas>
+  <div class="scanlines"></div>
   <div class="grain"></div>
-  <div class="strobe-overlay"></div>
+  <div class="strobe"></div>
 
   <!-- Navigation -->
   <header class="nav">
     <div class="nav-inner">
       <a class="brand" href="index.html">
         <div class="brand-mark">DM</div>
-        <div class="brand-text">
-          <span class="brand-name">DJ MARIO</span>
-          <span class="brand-tagline">House • Club • Energy</span>
+        <div>
+          <div class="brand-name">DJ MARIO</div>
+          <div class="brand-tagline">House • Club • Energy</div>
         </div>
       </a>
       <nav class="nav-links">
@@ -32,137 +38,109 @@
     </div>
   </header>
 
-  <!-- Main content -->
   <main class="main">
     <div class="container">
-      
-      <section class="section" style="padding-top: 60px;">
+
+      <section class="section" style="padding-top: 50px;">
         <div class="panel">
           <div class="section-header">
             <div class="section-label">Calendar</div>
             <h1 class="section-title">EVENTS</h1>
-            <p class="section-description">
-              Upcoming shows and recent performances. Replace with your actual dates and venues.
-            </p>
+            <p class="section-desc">Upcoming shows and recent performances. Replace with your actual dates.</p>
           </div>
 
-          <div class="controls" style="border-top: none; padding-top: 0; margin-top: 0; margin-bottom: 32px;">
+          <div class="controls" style="border: none; padding: 0; margin: 0 0 32px;">
             <button class="control-btn active" id="club-toggle">
-              <span class="indicator"></span>
-              Club Mode: <span class="status">ON</span>
+              <span class="dot"></span> Club Mode: <span class="status">ON</span>
             </button>
             <button class="control-btn" id="strobe-toggle">
-              <span class="indicator"></span>
-              Strobe: <span class="status">OFF</span>
+              <span class="dot"></span> Strobe: <span class="status">OFF</span>
             </button>
             <a href="booking.html" class="btn primary">Book DJ Mario</a>
           </div>
 
-          <!-- Upcoming events -->
+          <!-- Schedule -->
           <div class="section-header" style="margin-top: 20px;">
             <div class="section-label">Coming Up</div>
-            <h2 class="section-title" style="font-size: 36px;">SCHEDULE</h2>
+            <h2 class="section-title" style="font-size: 40px;">SCHEDULE</h2>
           </div>
 
-          <div class="table-wrap">
-            <table class="data-table">
-              <thead>
-                <tr>
-                  <th>Date</th>
-                  <th>Venue</th>
-                  <th>Details</th>
-                  <th></th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>
-                    <div style="font-family: 'Bebas Neue', sans-serif; font-size: 28px; color: var(--accent); line-height: 1;">18</div>
-                    <div style="font-family: 'Space Mono', monospace; font-size: 10px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px;">JAN 2025</div>
-                  </td>
-                  <td style="font-weight: 600;">Neon Room</td>
-                  <td>
-                    <span class="tag">House Night</span>
-                    <span class="tag">10PM — 2AM</span>
-                  </td>
-                  <td><a href="#" class="btn sm" onclick="return false;">RSVP</a></td>
-                </tr>
-                <tr>
-                  <td>
-                    <div style="font-family: 'Bebas Neue', sans-serif; font-size: 28px; color: var(--accent); line-height: 1;">07</div>
-                    <div style="font-family: 'Space Mono', monospace; font-size: 10px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px;">FEB 2025</div>
-                  </td>
-                  <td style="font-weight: 600;">Warehouse Pop-Up</td>
-                  <td>
-                    <span class="tag">Deep House</span>
-                    <span class="tag">Special Set</span>
-                  </td>
-                  <td><a href="#" class="btn sm" onclick="return false;">RSVP</a></td>
-                </tr>
-                <tr>
-                  <td>
-                    <div style="font-family: 'Bebas Neue', sans-serif; font-size: 28px; color: var(--accent); line-height: 1;">22</div>
-                    <div style="font-family: 'Space Mono', monospace; font-size: 10px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px;">FEB 2025</div>
-                  </td>
-                  <td style="font-weight: 600;">Private Event</td>
-                  <td>
-                    <span class="tag">VIP</span>
-                    <span class="tag">All Night</span>
-                  </td>
-                  <td><span style="color: var(--text-muted); font-size: 12px;">Invite Only</span></td>
-                </tr>
-                <tr>
-                  <td>
-                    <div style="font-family: 'Bebas Neue', sans-serif; font-size: 28px; color: var(--accent); line-height: 1;">15</div>
-                    <div style="font-family: 'Space Mono', monospace; font-size: 10px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px;">MAR 2025</div>
-                  </td>
-                  <td style="font-weight: 600;">Club Paradiso</td>
-                  <td>
-                    <span class="tag">Peak Time</span>
-                    <span class="tag">12AM — 4AM</span>
-                  </td>
-                  <td><a href="#" class="btn sm" onclick="return false;">RSVP</a></td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Venue</th>
+                <th>Details</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  <div style="font-family: 'Bebas Neue'; font-size: 32px; color: var(--accent); line-height: 1;">18</div>
+                  <div style="font-family: 'Space Mono'; font-size: 10px; color: var(--muted); letter-spacing: 1px;">JAN 2025</div>
+                </td>
+                <td style="font-weight: 600;">Neon Room</td>
+                <td><span class="tag">House Night</span> <span class="tag">10PM — 2AM</span></td>
+                <td><a href="#" class="btn sm" onclick="return false;">RSVP</a></td>
+              </tr>
+              <tr>
+                <td>
+                  <div style="font-family: 'Bebas Neue'; font-size: 32px; color: var(--accent); line-height: 1;">07</div>
+                  <div style="font-family: 'Space Mono'; font-size: 10px; color: var(--muted); letter-spacing: 1px;">FEB 2025</div>
+                </td>
+                <td style="font-weight: 600;">Warehouse Pop-Up</td>
+                <td><span class="tag">Deep House</span> <span class="tag">Special Set</span></td>
+                <td><a href="#" class="btn sm" onclick="return false;">RSVP</a></td>
+              </tr>
+              <tr>
+                <td>
+                  <div style="font-family: 'Bebas Neue'; font-size: 32px; color: var(--accent); line-height: 1;">22</div>
+                  <div style="font-family: 'Space Mono'; font-size: 10px; color: var(--muted); letter-spacing: 1px;">FEB 2025</div>
+                </td>
+                <td style="font-weight: 600;">Private Event</td>
+                <td><span class="tag">VIP</span> <span class="tag">All Night</span></td>
+                <td><span style="color: var(--muted); font-size: 11px;">Invite Only</span></td>
+              </tr>
+              <tr>
+                <td>
+                  <div style="font-family: 'Bebas Neue'; font-size: 32px; color: var(--accent); line-height: 1;">15</div>
+                  <div style="font-family: 'Space Mono'; font-size: 10px; color: var(--muted); letter-spacing: 1px;">MAR 2025</div>
+                </td>
+                <td style="font-weight: 600;">Club Paradiso</td>
+                <td><span class="tag">Peak Time</span> <span class="tag">12AM — 4AM</span></td>
+                <td><a href="#" class="btn sm" onclick="return false;">RSVP</a></td>
+              </tr>
+            </tbody>
+          </table>
 
           <!-- What to expect -->
           <div class="section-header" style="margin-top: 60px;">
             <div class="section-label">Info</div>
-            <h2 class="section-title" style="font-size: 36px;">WHAT TO EXPECT</h2>
+            <h2 class="section-title" style="font-size: 40px;">WHAT TO EXPECT</h2>
           </div>
 
           <div class="grid-3">
             <div class="card">
               <div class="card-icon">🎛️</div>
               <h4>Set Types</h4>
-              <p>
-                Club sets • Private parties • Lounges • Festival openers • 
-                Afterhours sessions
-              </p>
+              <p>Club sets • Private parties • Lounges • Festival openers • Afterhours sessions</p>
             </div>
             <div class="card">
               <div class="card-icon">🔊</div>
               <h4>Technical</h4>
-              <p>
-                Pioneer CDJ/DJM setup or controller. USB and digital ready. 
-                Can coordinate with house sound + lighting.
-              </p>
+              <p>Pioneer CDJ/DJM setup or controller. USB and digital ready. Coordinate with house sound.</p>
             </div>
             <div class="card">
               <div class="card-icon">✨</div>
               <h4>Extras</h4>
-              <p>
-                Optional compact lighting package for smaller venues. 
-                Haze-ready atmosphere when permitted.
-              </p>
+              <p>Optional compact lighting package for smaller venues. Haze-ready atmosphere when permitted.</p>
             </div>
           </div>
 
-          <div class="controls" style="margin-top: 32px;">
+          <div style="display: flex; gap: 12px; margin-top: 32px;">
             <a href="booking.html" class="btn primary">Book Now</a>
-            <a href="mixes.html" class="btn ghost">Hear Mixes First</a>
+            <a href="mixes.html" class="btn">Hear Mixes First</a>
           </div>
         </div>
       </section>
@@ -170,7 +148,6 @@
     </div>
   </main>
 
-  <!-- Footer -->
   <footer class="footer">
     <div class="footer-inner">
       <div class="footer-brand">DJ MARIO</div>
