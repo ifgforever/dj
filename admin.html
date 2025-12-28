@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DJ MARIO — Admin Panel</title>
+  <link rel="stylesheet" href="assets/style.css">
+  <style>
+    /* Admin-specific styles */
+    .admin-header {
+      background: linear-gradient(135deg, var(--accent), var(--purple));
+      padding: 20px 24px;
+      margin-bottom: 32px;
+      border-radius: 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .admin-header h1 {
+      font-family: 'Bebas Neue'; font-size: 32px; letter-spacing: 3px; margin: 0;
+    }
+    .admin-tabs {
+      display: flex; gap: 8px; margin-bottom: 32px; flex-wrap: wrap;
+    }
+    .admin-tab {
+      padding: 12px 24px; border-radius: 10px;
+      font-family: 'Space Mono'; font-size: 11px; letter-spacing: 1px; text-transform: uppercase;
+      border: 1px solid var(--border); background: var(--elevated); color: #a1a1aa;
+      cursor: pointer; transition: all 0.3s;
+    }
+    .admin-tab:hover { border-color: rgba(255,107,53,0.3); color: var(--text); }
+    .admin-tab.active {
+      background: rgba(255,107,53,0.15); border-color: var(--accent); color: var(--accent);
+    }
+    .admin-section { display: none; }
+    .admin-section.active { display: block; }
+    
+    .admin-card {
+      background: var(--card); border: 1px solid var(--border); border-radius: 16px;
+      padding: 24px; margin-bottom: 20px;
+    }
+    .admin-card h3 {
+      font-family: 'Space Mono'; font-size: 11px; letter-spacing: 2px;
+      color: var(--accent); margin: 0 0 20px; text-transform: uppercase;
+    }
+    
+    .admin-row {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px;
+    }
+    @media (max-width: 700px) { .admin-row { grid-template-columns: 1fr; } }
+    
+    .admin-field { margin-bottom: 16px; }
+    .admin-field label {
+      display: block; font-family: 'Space Mono'; font-size: 10px; letter-spacing: 1px;
+      color: var(--muted); margin-bottom: 6px; text-transform: uppercase;
+    }
+    .admin-field input, .admin-field textarea, .admin-field select {
+      width: 100%; padding: 12px 14px; background: var(--elevated);
+      border: 1px solid var(--border); border-radius: 8px;
+      color: var(--text); font-family: 'Syne'; font-size: 14px;
+    }
+    .admin-field input:focus, .admin-field textarea:focus {
+      outline: none; border-color: var(--accent);
+    }
+    .admin-field textarea { min-height: 100px; resize: vertical; }
+    
+    .item-card {
+      background: var(--elevated); border: 1px solid var(--border); border-radius: 12px;
+      padding: 20px; margin-bottom: 12px; position: relative;
+    }
+    .item-card:hover { border-color: rgba(255,107,53,0.3); }
+    .item-header {
+      display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px;
+    }
+    .item-title { font-weight: 600; font-size: 16px; }
+    .item-meta { font-size: 12px; color: var(--muted); }
+    .item-actions { display: flex; gap: 8px; }
+    .item-actions button {
+      padding: 6px 12px; border-radius: 6px; font-size: 11px;
+      border: 1px solid var(--border); background: transparent; color: var(--text);
+      cursor: pointer; transition: all 0.2s;
+    }
+    .item-actions button:hover { border-color: var(--accent); color: var(--accent); }
+    .item-actions button.delete:hover { border-color: #ef4444; color: #ef4444; }
+    
+    .add-btn {
+      width: 100%; padding: 16px; border-radius: 12px;
+      border: 2px dashed var(--border); background: transparent;
+      color: var(--muted); font-family: 'Space Mono'; font-size: 12px;
+      cursor: pointer; transition: all 0.3s;
+    }
+    .add-btn:hover { border-color: var(--accent); color: var(--accent); }
+    
+    .save-bar {
+      position: fixed; bottom: 0; left: 0; right: 0;
+      background: rgba(5,5,7,0.95); backdrop-filter: blur(10px);
+      border-top: 1px solid var(--border); padding: 16px 24px;
+      display: flex; justify-content: flex-end; gap: 12px; z-index: 100;
+    }
+    
+    .toast {
+      position: fixed; bottom: 80px; right: 24px;
+      background: var(--accent); color: white; padding: 14px 24px;
+      border-radius: 10px; font-family: 'Space Mono'; font-size: 12px;
+      transform: translateY(100px); opacity: 0; transition: all 0.3s;
+      z-index: 101;
+    }
+    .toast.show { transform: translateY(0); opacity: 1; }
+    
+    .modal-overlay {
+      position: fixed; inset: 0; background: rgba(0,0,0,0.8);
+      display: none; place-items: center; z-index: 200;
+    }
+    .modal-overlay.show { display: grid; }
+    .modal {
+      background: var(--card); border: 1px solid var(--border); border-radius: 20px;
+      padding: 32px; width: 90%; max-width: 500px; max-height: 80vh; overflow-y: auto;
+    }
+    .modal h2 {
+      font-family: 'Bebas Neue'; font-size: 28px; letter-spacing: 2px; margin: 0 0 24px;
+    }
+    .modal-actions { display: flex; gap: 12px; margin-top: 24px; }
+  </style>
+</head>
+<body>
+  <div class="atmosphere"></div>
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+  <div class="grain"></div>
+
+  <header class="nav">
+    <div class="nav-inner">
+      <a class="brand" href="index.html">
+        <div class="brand-mark">DM</div>
+        <div>
+          <div class="brand-name">DJ MARIO</div>
+          <div class="brand-tagline">Admin Panel</div>
+        </div>
+      </a>
+      <nav class="nav-links">
+        <a href="index.html">View Site</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="main">
+    <div class="container" style="padding-top: 40px; padding-bottom: 100px;">
+      
+      <div class="admin-header">
+        <h1>⚙️ ADMIN PANEL</h1>
+        <span style="font-size: 12px; opacity: 0.8;">Manage your DJ site content</span>
+      </div>
+
+      <!-- Tabs -->
+      <div class="admin-tabs">
+        <button class="admin-tab active" data-tab="site">Site Info</button>
+        <button class="admin-tab" data-tab="events">Events</button>
+        <button class="admin-tab" data-tab="mixes">Mixes</button>
+        <button class="admin-tab" data-tab="socials">Social Links</button>
+        <button class="admin-tab" data-tab="services">Services</button>
+      </div>
+
+      <!-- Site Info Section -->
+      <section class="admin-section active" id="section-site">
+        <div class="admin-card">
+          <h3>Basic Info</h3>
+          <div class="admin-row">
+            <div class="admin-field">
+              <label>DJ Name</label>
+              <input type="text" id="site-djName">
+            </div>
+            <div class="admin-field">
+              <label>Tagline</label>
+              <input type="text" id="site-tagline">
+            </div>
+          </div>
+          <div class="admin-row">
+            <div class="admin-field">
+              <label>Location</label>
+              <input type="text" id="site-location">
+            </div>
+            <div class="admin-field">
+              <label>Since (Year)</label>
+              <input type="text" id="site-since">
+            </div>
+          </div>
+        </div>
+
+        <div class="admin-card">
+          <h3>Hero Section</h3>
+          <div class="admin-field">
+            <label>Hero Title</label>
+            <input type="text" id="site-heroTitle">
+          </div>
+          <div class="admin-field">
+            <label>Hero Description</label>
+            <textarea id="site-heroDescription"></textarea>
+          </div>
+        </div>
+
+        <div class="admin-card">
+          <h3>About / Bio</h3>
+          <div class="admin-field">
+            <label>Biography</label>
+            <textarea id="site-bio" style="min-height: 150px;"></textarea>
+          </div>
+        </div>
+      </section>
+
+      <!-- Events Section -->
+      <section class="admin-section" id="section-events">
+        <div class="admin-card">
+          <h3>Upcoming Events</h3>
+          <div id="events-list"></div>
+          <button class="add-btn" onclick="openEventModal()">+ Add New Event</button>
+        </div>
+      </section>
+
+      <!-- Mixes Section -->
+      <section class="admin-section" id="section-mixes">
+        <div class="admin-card">
+          <h3>Mix Library</h3>
+          <div id="mixes-list"></div>
+          <button class="add-btn" onclick="openMixModal()">+ Add New Mix</button>
+        </div>
+      </section>
+
+      <!-- Socials Section -->
+      <section class="admin-section" id="section-socials">
+        <div class="admin-card">
+          <h3>Social Media Links</h3>
+          <div class="admin-field">
+            <label>Instagram URL</label>
+            <input type="url" id="social-instagram" placeholder="https://instagram.com/...">
+          </div>
+          <div class="admin-field">
+            <label>SoundCloud URL</label>
+            <input type="url" id="social-soundcloud" placeholder="https://soundcloud.com/...">
+          </div>
+          <div class="admin-field">
+            <label>Mixcloud URL</label>
+            <input type="url" id="social-mixcloud" placeholder="https://mixcloud.com/...">
+          </div>
+          <div class="admin-field">
+            <label>YouTube URL</label>
+            <input type="url" id="social-youtube" placeholder="https://youtube.com/...">
+          </div>
+          <div class="admin-field">
+            <label>Spotify URL</label>
+            <input type="url" id="social-spotify" placeholder="https://open.spotify.com/...">
+          </div>
+        </div>
+      </section>
+
+      <!-- Services Section -->
+      <section class="admin-section" id="section-services">
+        <div class="admin-card">
+          <h3>Services / What You Offer</h3>
+          <div id="services-list"></div>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- Save Bar -->
+  <div class="save-bar">
+    <button class="btn" onclick="loadData()">Reset Changes</button>
+    <button class="btn primary" onclick="saveAll()">💾 Save All Changes</button>
+  </div>
+
+  <!-- Toast -->
+  <div class="toast" id="toast">Saved successfully!</div>
+
+  <!-- Event Modal -->
+  <div class="modal-overlay" id="event-modal">
+    <div class="modal">
+      <h2>Event Details</h2>
+      <input type="hidden" id="event-id">
+      <div class="admin-field">
+        <label>Date</label>
+        <input type="date" id="event-date">
+      </div>
+      <div class="admin-field">
+        <label>Venue</label>
+        <input type="text" id="event-venue" placeholder="Club name">
+      </div>
+      <div class="admin-field">
+        <label>City</label>
+        <input type="text" id="event-city" placeholder="Chicago">
+      </div>
+      <div class="admin-field">
+        <label>Tags (comma separated)</label>
+        <input type="text" id="event-tags" placeholder="House Night, 10PM — 2AM">
+      </div>
+      <div class="admin-field">
+        <label>RSVP Link (optional)</label>
+        <input type="url" id="event-rsvp" placeholder="https://...">
+      </div>
+      <div class="admin-field">
+        <label>
+          <input type="checkbox" id="event-private"> Private / Invite Only
+        </label>
+      </div>
+      <div class="modal-actions">
+        <button class="btn" onclick="closeEventModal()">Cancel</button>
+        <button class="btn primary" onclick="saveEvent()">Save Event</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mix Modal -->
+  <div class="modal-overlay" id="mix-modal">
+    <div class="modal">
+      <h2>Mix Details</h2>
+      <input type="hidden" id="mix-id">
+      <div class="admin-field">
+        <label>Title</label>
+        <input type="text" id="mix-title" placeholder="Midnight House Session">
+      </div>
+      <div class="admin-field">
+        <label>Tags (comma separated)</label>
+        <input type="text" id="mix-tags" placeholder="Deep, Club, Groovy">
+      </div>
+      <div class="admin-field">
+        <label>Duration</label>
+        <input type="text" id="mix-duration" placeholder="1:24:00">
+      </div>
+      <div class="admin-field">
+        <label>Embed URL (SoundCloud, Mixcloud, etc.)</label>
+        <input type="url" id="mix-embed" placeholder="https://...">
+      </div>
+      <div class="admin-field">
+        <label>
+          <input type="checkbox" id="mix-featured"> Featured Mix
+        </label>
+      </div>
+      <div class="modal-actions">
+        <button class="btn" onclick="closeMixModal()">Cancel</button>
+        <button class="btn primary" onclick="saveMix()">Save Mix</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const API = '/api';
+    let data = {};
+
+    // ─────────────────────────────────────────────────────────────
+    // TABS
+    // ─────────────────────────────────────────────────────────────
+    
+    document.querySelectorAll('.admin-tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        document.querySelectorAll('.admin-tab').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.admin-section').forEach(s => s.classList.remove('active'));
+        tab.classList.add('active');
+        document.getElementById('section-' + tab.dataset.tab).classList.add('active');
+      });
+    });
+
+    // ─────────────────────────────────────────────────────────────
+    // LOAD DATA
+    // ─────────────────────────────────────────────────────────────
+    
+    async function loadData() {
+      try {
+        const res = await fetch(API + '/data');
+        data = await res.json();
+        populateForm();
+        renderEvents();
+        renderMixes();
+        renderServices();
+      } catch (err) {
+        console.error('Failed to load data:', err);
+      }
+    }
+
+    function populateForm() {
+      // Site
+      document.getElementById('site-djName').value = data.site.djName || '';
+      document.getElementById('site-tagline').value = data.site.tagline || '';
+      document.getElementById('site-location').value = data.site.location || '';
+      document.getElementById('site-since').value = data.site.since || '';
+      document.getElementById('site-heroTitle').value = data.site.heroTitle || '';
+      document.getElementById('site-heroDescription').value = data.site.heroDescription || '';
+      document.getElementById('site-bio').value = data.site.bio || '';
+
+      // Socials
+      document.getElementById('social-instagram').value = data.socials.instagram || '';
+      document.getElementById('social-soundcloud').value = data.socials.soundcloud || '';
+      document.getElementById('social-mixcloud').value = data.socials.mixcloud || '';
+      document.getElementById('social-youtube').value = data.socials.youtube || '';
+      document.getElementById('social-spotify').value = data.socials.spotify || '';
+    }
+
+    // ─────────────────────────────────────────────────────────────
+    // RENDER LISTS
+    // ─────────────────────────────────────────────────────────────
+    
+    function renderEvents() {
+      const list = document.getElementById('events-list');
+      list.innerHTML = data.events.map(e => `
+        <div class="item-card">
+          <div class="item-header">
+            <div>
+              <div class="item-title">${e.venue}</div>
+              <div class="item-meta">${formatDate(e.date)} • ${e.city} ${e.isPrivate ? '• Private' : ''}</div>
+            </div>
+            <div class="item-actions">
+              <button onclick="editEvent(${e.id})">Edit</button>
+              <button class="delete" onclick="deleteEvent(${e.id})">Delete</button>
+            </div>
+          </div>
+          <div>${e.tags.map(t => `<span class="tag">${t}</span>`).join(' ')}</div>
+        </div>
+      `).join('');
+    }
+
+    function renderMixes() {
+      const list = document.getElementById('mixes-list');
+      list.innerHTML = data.mixes.map(m => `
+        <div class="item-card">
+          <div class="item-header">
+            <div>
+              <div class="item-title">${m.title} ${m.isFeatured ? '⭐' : ''}</div>
+              <div class="item-meta">${m.duration}</div>
+            </div>
+            <div class="item-actions">
+              <button onclick="editMix(${m.id})">Edit</button>
+              <button class="delete" onclick="deleteMix(${m.id})">Delete</button>
+            </div>
+          </div>
+          <div>${m.tags.map(t => `<span class="tag">${t}</span>`).join(' ')}</div>
+        </div>
+      `).join('');
+    }
+
+    function renderServices() {
+      const list = document.getElementById('services-list');
+      list.innerHTML = data.services.map(s => `
+        <div class="item-card">
+          <div class="admin-row">
+            <div class="admin-field">
+              <label>Icon</label>
+              <input type="text" value="${s.icon}" onchange="updateService(${s.id}, 'icon', this.value)">
+            </div>
+            <div class="admin-field">
+              <label>Title</label>
+              <input type="text" value="${s.title}" onchange="updateService(${s.id}, 'title', this.value)">
+            </div>
+          </div>
+          <div class="admin-field">
+            <label>Description</label>
+            <textarea onchange="updateService(${s.id}, 'description', this.value)">${s.description}</textarea>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function formatDate(dateStr) {
+      if (!dateStr) return '';
+      const d = new Date(dateStr);
+      return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+    }
+
+    // ─────────────────────────────────────────────────────────────
+    // EVENTS CRUD
+    // ─────────────────────────────────────────────────────────────
+    
+    function openEventModal(event = null) {
+      document.getElementById('event-id').value = event ? event.id : '';
+      document.getElementById('event-date').value = event ? event.date : '';
+      document.getElementById('event-venue').value = event ? event.venue : '';
+      document.getElementById('event-city').value = event ? event.city : '';
+      document.getElementById('event-tags').value = event ? event.tags.join(', ') : '';
+      document.getElementById('event-rsvp').value = event ? event.rsvpLink : '';
+      document.getElementById('event-private').checked = event ? event.isPrivate : false;
+      document.getElementById('event-modal').classList.add('show');
+    }
+
+    function closeEventModal() {
+      document.getElementById('event-modal').classList.remove('show');
+    }
+
+    function editEvent(id) {
+      const event = data.events.find(e => e.id === id);
+      if (event) openEventModal(event);
+    }
+
+    async function saveEvent() {
+      const id = document.getElementById('event-id').value;
+      const eventData = {
+        date: document.getElementById('event-date').value,
+        venue: document.getElementById('event-venue').value,
+        city: document.getElementById('event-city').value,
+        tags: document.getElementById('event-tags').value.split(',').map(t => t.trim()).filter(t => t),
+        rsvpLink: document.getElementById('event-rsvp').value,
+        isPrivate: document.getElementById('event-private').checked
+      };
+
+      try {
+        if (id) {
+          await fetch(API + '/events/' + id, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(eventData)
+          });
+        } else {
+          await fetch(API + '/events', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(eventData)
+          });
+        }
+        await loadData();
+        closeEventModal();
+        showToast('Event saved!');
+      } catch (err) {
+        console.error(err);
+      }
+    }
+
+    async function deleteEvent(id) {
+      if (!confirm('Delete this event?')) return;
+      await fetch(API + '/events/' + id, { method: 'DELETE' });
+      await loadData();
+      showToast('Event deleted');
+    }
+
+    // ─────────────────────────────────────────────────────────────
+    // MIXES CRUD
+    // ─────────────────────────────────────────────────────────────
+    
+    function openMixModal(mix = null) {
+      document.getElementById('mix-id').value = mix ? mix.id : '';
+      document.getElementById('mix-title').value = mix ? mix.title : '';
+      document.getElementById('mix-tags').value = mix ? mix.tags.join(', ') : '';
+      document.getElementById('mix-duration').value = mix ? mix.duration : '';
+      document.getElementById('mix-embed').value = mix ? mix.embedUrl : '';
+      document.getElementById('mix-featured').checked = mix ? mix.isFeatured : false;
+      document.getElementById('mix-modal').classList.add('show');
+    }
+
+    function closeMixModal() {
+      document.getElementById('mix-modal').classList.remove('show');
+    }
+
+    function editMix(id) {
+      const mix = data.mixes.find(m => m.id === id);
+      if (mix) openMixModal(mix);
+    }
+
+    async function saveMix() {
+      const id = document.getElementById('mix-id').value;
+      const mixData = {
+        title: document.getElementById('mix-title').value,
+        tags: document.getElementById('mix-tags').value.split(',').map(t => t.trim()).filter(t => t),
+        duration: document.getElementById('mix-duration').value,
+        embedUrl: document.getElementById('mix-embed').value,
+        isFeatured: document.getElementById('mix-featured').checked
+      };
+
+      try {
+        if (id) {
+          await fetch(API + '/mixes/' + id, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(mixData)
+          });
+        } else {
+          await fetch(API + '/mixes', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(mixData)
+          });
+        }
+        await loadData();
+        closeMixModal();
+        showToast('Mix saved!');
+      } catch (err) {
+        console.error(err);
+      }
+    }
+
+    async function deleteMix(id) {
+      if (!confirm('Delete this mix?')) return;
+      await fetch(API + '/mixes/' + id, { method: 'DELETE' });
+      await loadData();
+      showToast('Mix deleted');
+    }
+
+    // ─────────────────────────────────────────────────────────────
+    // SERVICES
+    // ─────────────────────────────────────────────────────────────
+    
+    function updateService(id, field, value) {
+      const service = data.services.find(s => s.id === id);
+      if (service) service[field] = value;
+    }
+
+    // ─────────────────────────────────────────────────────────────
+    // SAVE ALL
+    // ─────────────────────────────────────────────────────────────
+    
+    async function saveAll() {
+      // Collect site data
+      const siteData = {
+        djName: document.getElementById('site-djName').value,
+        tagline: document.getElementById('site-tagline').value,
+        location: document.getElementById('site-location').value,
+        since: document.getElementById('site-since').value,
+        heroTitle: document.getElementById('site-heroTitle').value,
+        heroDescription: document.getElementById('site-heroDescription').value,
+        bio: document.getElementById('site-bio').value
+      };
+
+      const socialsData = {
+        instagram: document.getElementById('social-instagram').value,
+        soundcloud: document.getElementById('social-soundcloud').value,
+        mixcloud: document.getElementById('social-mixcloud').value,
+        youtube: document.getElementById('social-youtube').value,
+        spotify: document.getElementById('social-spotify').value
+      };
+
+      try {
+        await fetch(API + '/site', {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(siteData)
+        });
+
+        await fetch(API + '/socials', {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(socialsData)
+        });
+
+        // Save services
+        for (const service of data.services) {
+          await fetch(API + '/services/' + service.id, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(service)
+          });
+        }
+
+        showToast('All changes saved!');
+      } catch (err) {
+        console.error(err);
+        showToast('Error saving');
+      }
+    }
+
+    // ─────────────────────────────────────────────────────────────
+    // TOAST
+    // ─────────────────────────────────────────────────────────────
+    
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      toast.textContent = msg;
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 3000);
+    }
+
+    // Init
+    loadData();
+  </script>
+</body>
+</html>
