@@ -1,1 +1,107 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>DJ Mario — Booking</title>
+  <link rel="stylesheet" href="assets/style.css"/>
+</head>
+<body>
+  <div class="ambient"></div>
+  <canvas id="fx"></canvas>
+  <div class="strobe"></div>
+
+  <header class="nav">
+    <div class="nav-inner">
+      <a class="brand" href="index.html">
+        <span class="badge" aria-hidden="true"></span>
+        <div>
+          <strong>DJ MARIO</strong><br/>
+          <span style="color:var(--muted); font-size:12px; letter-spacing:1px;">HOUSE • CLUB • ENERGY</span>
+        </div>
+      </a>
+      <nav class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="mixes.html">Mixes</a>
+        <a href="events.html">Events</a>
+        <a href="booking.html">Booking</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="panel" style="padding:22px;">
+      <div class="lasers"></div>
+      <div class="kicker">BOOKING</div>
+      <h1 class="title" style="font-size: clamp(34px, 5vw, 56px);">Book DJ Mario</h1>
+      <p class="section-sub">This is a demo booking page. You can wire it to Formspree, Google Forms, or email.</p>
+
+      <div class="cta-row">
+        <button class="btn small" id="clubToggle" type="button" aria-pressed="true">Club Mode: ON</button>
+        <button class="btn small" id="strobeToggle" type="button" aria-pressed="false">Strobe: OFF</button>
+        <a class="btn" href="mixes.html">Hear Mixes</a>
+      </div>
+
+      <hr class="sep"/>
+
+      <!-- Demo form (no backend). Swap action="" for Formspree later -->
+      <form onsubmit="event.preventDefault(); alert('Demo form — connect to Formspree to receive inquiries.');">
+        <div class="form-grid">
+          <div>
+            <label>Name</label>
+            <input placeholder="Promoter / Client name" required/>
+          </div>
+          <div>
+            <label>Email</label>
+            <input type="email" placeholder="you@email.com" required/>
+          </div>
+          <div>
+            <label>Event Date</label>
+            <input type="date" required/>
+          </div>
+          <div>
+            <label>Location</label>
+            <input placeholder="Venue / City" required/>
+          </div>
+        </div>
+
+        <div style="margin-top:12px;">
+          <label>Tell us the vibe</label>
+          <textarea placeholder="House style (deep/tech/classic), set length, time slot, crowd size, equipment, lighting..."></textarea>
+        </div>
+
+        <div class="cta-row" style="margin-top:12px;">
+          <button class="btn primary" type="submit">Send Booking Request</button>
+          <a class="btn" href="#" onclick="return false;">Instagram</a>
+          <a class="btn" href="#" onclick="return false;">SoundCloud</a>
+        </div>
+      </form>
+
+      <div class="grid" style="margin-top:18px;">
+        <div class="card">
+          <h4>✅ Fast replies</h4>
+          <p>Promoters get a quick response + clear technical requirements.</p>
+        </div>
+        <div class="card">
+          <h4>🎚️ Flexible sets</h4>
+          <p>Openers, peak time, afterhours — tailored energy.</p>
+        </div>
+        <div class="card">
+          <h4>🪩 Optional lighting</h4>
+          <p>Pitch: compact lights + haze-ready vibe for small rooms.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <div>DJ Mario (Demo)</div>
+      <div>Turn this into a live booking funnel</div>
+    </div>
+  </footer>
+
+  <script src="assets/app.js"></script>
+</body>
+</html>
 
