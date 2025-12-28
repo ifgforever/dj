@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>DJ MARIO — Events</title>
+  <title>DJ MARIO — Booking</title>
   <link rel="stylesheet" href="assets/style.css">
 </head>
 <body>
@@ -44,9 +44,9 @@
       <section class="section" style="padding-top: 50px;">
         <div class="panel">
           <div class="section-header">
-            <div class="section-label">Calendar</div>
-            <h1 class="section-title">EVENTS</h1>
-            <p class="section-desc">Upcoming shows and recent performances. Replace with your actual dates.</p>
+            <div class="section-label">Get in Touch</div>
+            <h1 class="section-title">BOOKING</h1>
+            <p class="section-desc">Ready to bring the energy? Fill out the form and I'll get back within 24 hours.</p>
           </div>
 
           <div class="controls" style="border: none; padding: 0; margin: 0 0 32px;">
@@ -56,91 +56,83 @@
             <button class="control-btn" id="strobe-toggle">
               <span class="dot"></span> Strobe: <span class="status">OFF</span>
             </button>
-            <a href="booking.html" class="btn primary">Book DJ Mario</a>
+            <a href="mixes.html" class="btn">Hear Mixes First</a>
           </div>
 
-          <!-- Schedule -->
-          <div class="section-header" style="margin-top: 20px;">
-            <div class="section-label">Coming Up</div>
-            <h2 class="section-title" style="font-size: 40px;">SCHEDULE</h2>
-          </div>
+          <!-- Booking form -->
+          <form id="booking-form" style="max-width: 700px;">
+            <div class="form-grid">
+              <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" id="name" class="form-input" placeholder="Promoter / Client name" required>
+              </div>
+              <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" class="form-input" placeholder="you@email.com" required>
+              </div>
+              <div class="form-group">
+                <label for="date">Event Date</label>
+                <input type="date" id="date" class="form-input" required>
+              </div>
+              <div class="form-group">
+                <label for="location">Location</label>
+                <input type="text" id="location" class="form-input" placeholder="Venue / City" required>
+              </div>
+            </div>
 
-          <table class="data-table">
-            <thead>
-              <tr>
-                <th>Date</th>
-                <th>Venue</th>
-                <th>Details</th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>
-                  <div style="font-family: 'Bebas Neue'; font-size: 32px; color: var(--accent); line-height: 1;">18</div>
-                  <div style="font-family: 'Space Mono'; font-size: 10px; color: var(--muted); letter-spacing: 1px;">JAN 2025</div>
-                </td>
-                <td style="font-weight: 600;">Neon Room</td>
-                <td><span class="tag">House Night</span> <span class="tag">10PM — 2AM</span></td>
-                <td><a href="#" class="btn sm" onclick="return false;">RSVP</a></td>
-              </tr>
-              <tr>
-                <td>
-                  <div style="font-family: 'Bebas Neue'; font-size: 32px; color: var(--accent); line-height: 1;">07</div>
-                  <div style="font-family: 'Space Mono'; font-size: 10px; color: var(--muted); letter-spacing: 1px;">FEB 2025</div>
-                </td>
-                <td style="font-weight: 600;">Warehouse Pop-Up</td>
-                <td><span class="tag">Deep House</span> <span class="tag">Special Set</span></td>
-                <td><a href="#" class="btn sm" onclick="return false;">RSVP</a></td>
-              </tr>
-              <tr>
-                <td>
-                  <div style="font-family: 'Bebas Neue'; font-size: 32px; color: var(--accent); line-height: 1;">22</div>
-                  <div style="font-family: 'Space Mono'; font-size: 10px; color: var(--muted); letter-spacing: 1px;">FEB 2025</div>
-                </td>
-                <td style="font-weight: 600;">Private Event</td>
-                <td><span class="tag">VIP</span> <span class="tag">All Night</span></td>
-                <td><span style="color: var(--muted); font-size: 11px;">Invite Only</span></td>
-              </tr>
-              <tr>
-                <td>
-                  <div style="font-family: 'Bebas Neue'; font-size: 32px; color: var(--accent); line-height: 1;">15</div>
-                  <div style="font-family: 'Space Mono'; font-size: 10px; color: var(--muted); letter-spacing: 1px;">MAR 2025</div>
-                </td>
-                <td style="font-weight: 600;">Club Paradiso</td>
-                <td><span class="tag">Peak Time</span> <span class="tag">12AM — 4AM</span></td>
-                <td><a href="#" class="btn sm" onclick="return false;">RSVP</a></td>
-              </tr>
-            </tbody>
-          </table>
+            <div class="form-group">
+              <label for="vibe">Tell Me About the Event</label>
+              <textarea id="vibe" class="form-input" placeholder="House style (deep/tech/classic), set length, time slot, expected crowd size, equipment provided..."></textarea>
+            </div>
 
-          <!-- What to expect -->
+            <div style="display: flex; flex-wrap: wrap; gap: 14px; margin-top: 24px;">
+              <button type="submit" class="btn primary">Send Booking Request</button>
+              <a href="#" class="btn" onclick="return false;">Instagram</a>
+              <a href="#" class="btn" onclick="return false;">SoundCloud</a>
+            </div>
+          </form>
+
+          <!-- Info cards -->
           <div class="section-header" style="margin-top: 60px;">
-            <div class="section-label">Info</div>
-            <h2 class="section-title" style="font-size: 40px;">WHAT TO EXPECT</h2>
+            <div class="section-label">Why Work With Me</div>
+            <h2 class="section-title" style="font-size: 40px;">WHAT YOU GET</h2>
           </div>
 
           <div class="grid-3">
             <div class="card">
-              <div class="card-icon">🎛️</div>
-              <h4>Set Types</h4>
-              <p>Club sets • Private parties • Lounges • Festival openers • Afterhours sessions</p>
+              <div class="card-icon">⚡</div>
+              <h4>Fast Response</h4>
+              <p>Quick replies to all inquiries. Clear communication on availability, rates, and technical requirements.</p>
             </div>
             <div class="card">
-              <div class="card-icon">🔊</div>
-              <h4>Technical</h4>
-              <p>Pioneer CDJ/DJM setup or controller. USB and digital ready. Coordinate with house sound.</p>
+              <div class="card-icon">🎚️</div>
+              <h4>Flexible Sets</h4>
+              <p>Opening warmups, peak time, afterhours — I tailor the energy to exactly what your event needs.</p>
             </div>
             <div class="card">
               <div class="card-icon">✨</div>
-              <h4>Extras</h4>
-              <p>Optional compact lighting package for smaller venues. Haze-ready atmosphere when permitted.</p>
+              <h4>Optional Extras</h4>
+              <p>Compact lighting package available for intimate venues. Let's make your space feel like a proper club.</p>
             </div>
           </div>
 
-          <div style="display: flex; gap: 12px; margin-top: 32px;">
-            <a href="booking.html" class="btn primary">Book Now</a>
-            <a href="mixes.html" class="btn">Hear Mixes First</a>
+          <!-- Rates note -->
+          <div class="info-card" style="margin-top: 32px; max-width: 700px;">
+            <h3>A Note on Rates</h3>
+            <p>
+              Every event is different. Rates depend on set length, venue type, travel, and date availability. 
+              Fill out the form and I'll send a custom quote within 24 hours. No obligations — let's just start the conversation.
+            </p>
+            <div class="eq-bars" style="margin-top: 20px;">
+              <div class="eq-bar"></div>
+              <div class="eq-bar"></div>
+              <div class="eq-bar"></div>
+              <div class="eq-bar"></div>
+              <div class="eq-bar"></div>
+              <div class="eq-bar"></div>
+              <div class="eq-bar"></div>
+              <div class="eq-bar"></div>
+            </div>
           </div>
         </div>
       </section>
@@ -151,7 +143,7 @@
   <footer class="footer">
     <div class="footer-inner">
       <div class="footer-brand">DJ MARIO</div>
-      <div class="footer-info">House Music • Chicago • Clubs • Private Events</div>
+      <div class="footer-info">Turn inquiries into bookings</div>
     </div>
   </footer>
 
